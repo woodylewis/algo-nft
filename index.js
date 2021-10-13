@@ -12,10 +12,6 @@ const keypress = async () => {
         resolve()
     }))
 }
-// createAccount
-// once created sucessfully, you will need to add funds
-// The Algorand TestNet Dispenser is located here:
-// https://dispenser.testnet.aws.algodev.network/
 
 const DISPENSERACCOUNT = "HZ57J3K46JIJXILONBBZOHX6BKPXEM2VVXNRFSUED6DKFD5ZD24PMJ3MVA";
 async function createAsset(algodClient, alice) {
@@ -205,20 +201,6 @@ async function destroyAsset(algodClient, alice, assetID) {
     await printAssetHolding(algodClient, alice.addr, assetID);
 
     return;
-    // Notice that although the asset was destroyed, the asset id and associated
-    // metadata still exists in account holdings for any account that optin.
-    // When you destroy an asset, the global parameters associated with that asset
-    // (manager addresses, name, etc.) are deleted from the creator's account.
-    // However, holdings are not deleted automatically -- users still need to
-    // use the closeToAccount on the call makePaymentTxnWithSuggestedParams of the deleted asset.
-    // This is necessary for technical reasons because we currently can't have a single transaction touch potentially
-    // thousands of accounts (all the holdings that would need to be deleted).
-
-    // ==> DESTROY ASSET
-    // Transaction QCE52AAX75VBSGDL36VHMNVT6LXSR5M6V5JUNSKE6BXQGLQEMLDA confirmed in round 16833536
-    // Asset ID: 28291127
-    // Alice = RA6RAUNDQGHRWTCR5YRL2YJMIXTHWD5S3ZYHVBGSNA76AVBAYELSNRVKEI
-    // Bob = YC3UYV4JLHD344OC3G7JK37DRVSE7X7U2NOZVWSQNVKNEGV4M3KFA7WZ44
 }
 async function closeoutAliceAlgos(algodClient, alice) {
     console.log("");
@@ -228,12 +210,6 @@ async function closeoutAliceAlgos(algodClient, alice) {
     const startingAmount = accountInfo.amount;
     // Construct the transaction
     const params = await algodClient.getTransactionParams().do();
-    // comment out the next two lines to use suggested fee
-    // params.fee = 1000;
-    // params.flatFee = true;
-    // For more info see:
-    // https://developer.algorand.org/docs/reference/transactions/#payment-transaction
-    // receiver account to send to
     const receiver = alice.addr;
     const enc = new TextEncoder();
     const amount = 0;
@@ -381,22 +357,19 @@ const printAssetHolding = async function (algodClient, account, assetid) {
 async function createNFT() {
 
     try {
-        /*
-        let alice = createAccount();
-        console.log("Press any key when the account is funded");
-        await keypress();
-         */
-        // Connect your client
-        // const algodToken = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
-        // const algodServer = 'http://localhost';
-        // const algodPort = 4001;
         const algodToken = '2f3203f21e738a1de6110eba6984f9d03e5a95d7a577b34616854064cf2c0e7b';
         const algodServer = 'https://academy-algod.dev.aws.algodev.network';
         const algodPort = 443;
+        const testAddress = 'AETN2GEID5CGDXBW7PYAU3UP35YE6JM34QRGKANJV7RVTJ5GY2HCUVDERA';
 
         let algodClient = new algosdk.Algodv2(algodToken, algodServer, algodPort);
         console.log('ALGOD CLIENT ==> ');
         console.dir(algodClient);
+
+        const accountInfo = await algodClient.accountInformation(testAddress).do();
+        console.log('ACCOUNT INFO ==> ');
+        console.dir(accountInfo);
+
 /*
         // CREATE ASSET
         const { assetID } = await createAsset(algodClient, alice);
