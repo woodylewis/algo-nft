@@ -366,9 +366,9 @@ async function createNFT() {
         console.log('ALGOD CLIENT ==> ');
         console.dir(algodClient);
 
-        const accountInfo = await algodClient.accountInformation(testAddress).do();
+        const theAccount = await algodClient.accountInformation(testAddress).do();
         console.log('ACCOUNT INFO ==> ');
-        console.dir(accountInfo);
+        console.dir(theAccount);
 
 /*
         // CREATE ASSET
