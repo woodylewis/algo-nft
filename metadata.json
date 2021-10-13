@@ -1,0 +1,51 @@
+{
+  "narrative_node": {
+    "stories": [
+      {
+        "name": "formation",
+        "actions" : [
+          {
+            "type": "Innovation",
+            "channel": "knowledge",
+            "actor": {
+              "type": "enterprise",
+              "name": "Smart Narrative Network"
+            }
+          },
+          {
+            "type": "Incorporate",
+            "channel": "governance",
+            "actor": {
+              "type": "enterprise",
+              "name": "Smart Narrative Network"
+            }
+          },
+          {
+            "type": "Contact Investors",
+            "channel": "communication",
+            "actor": {
+              "type": "enterprise",
+              "name": "Smart Narrative Network"
+            }
+          },
+          {
+            "type": "Sell Shares",
+            "channel": "finance",
+            "actor": {
+              "type": "enterprise",
+              "name": "Smart Narrative Network"
+            }
+          },
+          {
+            "type": "Acquire Assets",
+            "channel": "portfolio",
+            "actor": {
+              "type": "enterprise",
+              "name": "Smart Narrative Network"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
