@@ -39,9 +39,9 @@ async function createAsset(algodClient, account) {
     // Whether user accounts will need to be unfrozen before transacting
     const defaultFrozen = false;
     // Used to display asset units to user
-    const unitName = "SNCOIN";
+    const unitName = "SNNFT";
     // Friendly name of the asset
-    const assetName = "Smart Narrative Coin";
+    const assetName = "Smart Narrative NFT";
     // Optional string pointing to a URL relating to the asset
     const url = "https://ipfs.io/ipfs/Qmbt5JczpfYaXUFfW3M9HP9Yu6DV2G8Sw5t6HyqqqXjfJM";
     // Optional hash commitment of some sort relating to the asset. 32 character length.
@@ -115,7 +115,7 @@ async function createAsset(algodClient, account) {
         decimals,
         assetName,
         unitName,
-        // assetURL: url,
+        assetURL: url,
         // assetMetadataHash: metadata,
         defaultFrozen,
         freeze: freezeAddr,
@@ -129,7 +129,6 @@ async function createAsset(algodClient, account) {
     const recoveredAccount = algosdk.mnemonicToSecretKey(account_mnemonic);
     // const sk = new Uint8Array(account.address);
     const rawSignedTxn = txn.signTxn(recoveredAccount.sk);
-    console.log('HERE');
 
     const tx = (await algodClient.sendRawTransaction(rawSignedTxn).do());
     let assetID = null;
@@ -139,7 +138,6 @@ async function createAsset(algodClient, account) {
     console.log("Transaction " + tx.txId + " confirmed in round " + confirmedTxn["confirmed-round"]);
     const ptx = await algodClient.pendingTransactionInformation(tx.txId).do();
     assetID = ptx["asset-index"];
-    // console.log("AssetID = " + assetID);
 
     /*
         // await printCreatedAsset(algodClient, account.address, assetID);
@@ -149,8 +147,8 @@ async function createAsset(algodClient, account) {
         console.log("cat aliceAssetMetaData.json | openssl dgst -sha256 -binary | openssl base64 -A");
         console.log("That is: Cii04FOHWE4NiXQ4s4J02we2gnJop5dOfdkBvUoGHQ8=");
 
-        return { assetID };
     */
+        return { assetID };
     // Sample Output similar to
     // ==> CREATE ASSET
     // Alice account balance: 10000000 microAlgos
@@ -378,26 +376,13 @@ async function createNFT() {
         const testAddress = 'AETN2GEID5CGDXBW7PYAU3UP35YE6JM34QRGKANJV7RVTJ5GY2HCUVDERA';
 
         let algodClient = new algosdk.Algodv2(algodToken, algodServer, algodPort);
-        // console.log('ALGOD CLIENT ==> ');
-        // console.dir(algodClient);
 
         const theAccount = await algodClient.accountInformation(testAddress).do();
         console.log('ACCOUNT INFO ==> ');
         console.dir(theAccount);
 
-        // const { assetID } = await createAsset(algodClient, theAccount);
-        const result = await createAsset(algodClient, theAccount);
-        console.log('RESULT ==> ');
-        console.dir(result);
-/*
-        // CREATE ASSET
-        const { assetID } = await createAsset(algodClient, alice);
-        // DESTROY ASSET
-        await destroyAsset(algodClient, alice, assetID);
-            // CLOSEOUT ALGOS - Alice closes out Alogs to dispenser
-        await closeoutAliceAlgos(algodClient, alice);
-  */
-
+        const { assetID } = await createAsset(algodClient, theAccount);
+        console.log('ASSET ID ==> '+ assetID);
     }
     catch (err) {
         console.log("err", err);
